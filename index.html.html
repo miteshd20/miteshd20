@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engine Identification</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0; /* Light gray background */
+    }
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff; /* White background for the container */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Drop shadow effect */
+    }
+    h1 {
+        color: #333; /* Dark gray color for the heading */
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: bold;
+    }
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+    button {
+        background-color: #4CAF50; /* Green */
+        color: white;
+        padding: 15px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+    }
+    button:hover {
+        background-color: #45a049; /* Darker green on hover */
+    }
+    #result {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #f2f2f2; /* Light gray background for result */
+        border: 1px solid #ccc;
+    }
+</style>
+<script>
+    function identifyEngine() {
+        var engineBrand = document.getElementById("engine_brand").value.toLowerCase();
+        var resultContainer = document.getElementById("result");
+        var coolantSize;
+
+        if (engineBrand === "cummins") {
+            var cumminsType = prompt("Enter the Cummins engine type (ISL9/ISB6.7/ISC8.3/X15/X12/ISX): ").toUpperCase();
+            if (cumminsType) {
+                coolantSize = prompt("Enter the coolant size ('5/8 & 3/4', '3/4 & 3/4', or '5/8 & 5/8'): ");
+            }
+            switch (cumminsType) {
+                case "ISL9":
+                    resultContainer.innerHTML = "Valve Assembly Kit number AS-2-3<br>ECU Programmed with Cummins ISL AS-8-3<br>";
+                    break;
+                case "ISB6.7":
+                    resultContainer.innerHTML = "Valve Assembly Kit number AS-2-6<br>ECU Programmed with Cummins ISL AS-8-4<br>";
+                    break;
+                case "X12":
+                    resultContainer.innerHTML = "Valve Assembly Kit number AS-2-11<br>ECU Programmed with Cummins ISL AS-8-6<br>";
+                    break;
+                case "X15":
+                    resultContainer.innerHTML = "Valve Assembly Kit number AS-2-5<br>ECU Programmed with Cummins ISL AS-8-7<br>";
+                    break;
+                case "ISX":
+                    resultContainer.innerHTML = "Valve Assembly Kit number AS-2-5<br>ECU Programmed with Cummins ISL AS-8-5<br>";
+                    break;
+                default:
+                    resultContainer.innerHTML = "Invalid Cummins engine type!";
+                    return;
+            }
+            if (coolantSize) {
+                resultContainer.innerHTML += "Coolant tap kit number: ";
+                switch (coolantSize) {
+                    case "5/8 & 3/4":
+                        resultContainer.innerHTML += "K-06-02";
+                        break;
+                    case "3/4 & 3/4":
+                        resultContainer.innerHTML += "K-06-03";
+                        break;
+                    case "5/8 & 5/8":
+                        resultContainer.innerHTML += "K-06-04";
+                        break;
+                    default:
+                        resultContainer.innerHTML += "Invalid coolant size!";
+                }
+            }
+        } else if (engineBrand === "navistar") {
+            var navistarType = prompt("Enter the Navistar engine type (N10/N9/Maxxforce7/Maxxforce10): ").toUpperCase();
+            switch (navistarType) {
+                case "N10":
+                    resultContainer.innerHTML = "Coolant tap kit number: 04";
+                    break;
+                case "N9":
+                case "MAXXFORCE7":
+                case "MAXXFORCE10":
+                    resultContainer.innerHTML = "Coolant tap kit number: 05";
+                    break;
+                default:
+                    resultContainer.innerHTML = "Invalid Navistar engine type!";
+            }
+        } else if (["volvo-mack", "ford", "paccar", "detroit diesel"].includes(engineBrand)) {
+            resultContainer.innerHTML = "It is a " + engineBrand + " engine.";
+        } else {
+            resultContainer.innerHTML = "Invalid engine brand!";
+        }
+    }
+</script>
+</head>
+<body>
+<h1>Engine Identification</h1>
+<form>
+    <label for="engine_brand">Enter the engine brand:</label>
+    <input type="text" id="engine_brand" name="engine_brand">
+    <button type="button" onclick="identifyEngine()">Identify Engine</button>
+</form>
+<div id="result"></div>
+</body>
+</html>
